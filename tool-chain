@@ -62,3 +62,21 @@ nithyanandan@nithyanandan-U24D:~$ which riscv32-unknown-elf-gcc
 nithyanandan@nithyanandan-U24D:~$ ls $(riscv32-unknown-elf-gcc -print-sysroot)/include/stdio.h
 ls: cannot access '/include/stdio.h': No such file or directory
 
+attempt 4
+-------------------
+REMOVE the wrong symlinks
+sudo rm -f /usr/bin/riscv32-unknown-elf-gcc
+sudo rm -f /usr/bin/riscv32-unknown-elf-g++
+sudo rm -f /usr/bin/riscv32-unknown-elf-objdump
+sudo rm -f /usr/bin/riscv32-unknown-elf-objcopy
+sudo rm -f /usr/bin/riscv32-unknown-elf-size
+export PATH="$HOME/xpack-riscv-none-elf-gcc-13.2.0-2/bin:$PATH"
+hash -r
+sudo ln -sf $HOME/xpack-riscv-none-elf-gcc-13.2.0-2/bin/riscv-none-elf-gcc     /usr/local/bin/riscv32-unknown-elf-gcc
+sudo ln -sf $HOME/xpack-riscv-none-elf-gcc-13.2.0-2/bin/riscv-none-elf-g++     /usr/local/bin/riscv32-unknown-elf-g++
+sudo ln -sf $HOME/xpack-riscv-none-elf-gcc-13.2.0-2/bin/riscv-none-elf-objdump /usr/local/bin/riscv32-unknown-elf-objdump
+sudo ln -sf $HOME/xpack-riscv-none-elf-gcc-13.2.0-2/bin/riscv-none-elf-objcopy /usr/local/bin/riscv32-unknown-elf-objcopy
+sudo ln -sf $HOME/xpack-riscv-none-elf-gcc-13.2.0-2/bin/riscv-none-elf-size    /usr/local/bin/riscv32-unknown-elf-size
+hash -r
+which riscv32-unknown-elf-gcc
+ls $(riscv32-unknown-elf-gcc -print-sysroot)/include/stdio.h
