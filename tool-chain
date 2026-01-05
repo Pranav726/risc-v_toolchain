@@ -1,0 +1,64 @@
+sudo apt update
+sudo apt install -y gcc-riscv64-unknown-elf
+riscv64-unknown-elf-gcc --version
+riscv64-unknown-elf-gcc -march=rv32im -mabi=ilp32 -v
+sudo ln -sf /usr/bin/riscv64-unknown-elf-gcc     /usr/bin/riscv32-unknown-elf-gcc
+sudo ln -sf /usr/bin/riscv64-unknown-elf-g++     /usr/bin/riscv32-unknown-elf-g++
+sudo ln -sf /usr/bin/riscv64-unknown-elf-objdump /usr/bin/riscv32-unknown-elf-objdump
+sudo ln -sf /usr/bin/riscv64-unknown-elf-objcopy /usr/bin/riscv32-unknown-elf-objcopy
+sudo ln -sf /usr/bin/riscv64-unknown-elf-size    /usr/bin/riscv32-unknown-elf-size
+riscv32-unknown-elf-gcc --version
+sudo apt update
+sudo apt install -y newlib-riscv64-unknown-elf
+cd ~
+wget https://github.com/xpack-dev-tools/riscv-none-elf-gcc-xpack/releases/download/v13.2.0-2/xpack-riscv-none-elf-gcc-13.2.0-2-linux-x64.tar.gz
+tar -xvf xpack-riscv-none-elf-gcc-13.2.0-2-linux-x64.tar.gz
+nano ~/.bashrc
+
+Add near the top:
+# xPack RISC-V bare-metal toolchain (Shakti)
+export PATH="$HOME/xpack-riscv-none-elf-gcc-13.2.0-2/bin:$PATH"
+
+source ~/.bashrc
+riscv32-unknown-elf-gcc --version
+ls $(riscv32-unknown-elf-gcc -print-sysroot)/include/stdio.h  "not worked"
+
+error : 
+nithyanandan@nithyanandan-U24D:~$ ls $(riscv32-unknown-elf-gcc -print-sysroot)/include/stdio.h
+ls: cannot access '/include/stdio.h': No such file or directory
+
+
+attemp-3
+-------------
+cd ~
+wget https://github.com/xpack-dev-tools/riscv-none-elf-gcc-xpack/releases/download/v13.2.0-2/xpack-riscv-none-elf-gcc-13.2.0-2-linux-x64.tar.gz
+tar -xvf xpack-riscv-none-elf-gcc-13.2.0-2-linux-x64.tar.gz
+~/xpack-riscv-none-elf-gcc-13.2.0-2/
+nano ~/.bashrc
+
+removed this lines:
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/xpack-riscv-none-elf-gcc-13.2.0-2/bin:$PATH"
+export PATH="$HOME/.local/bin:$HOME/bsc/inst/bin:..."
+export PATH="$PATH:$HOME/.local/share/coursier/bin:$HOME/vivado/2025.2/Vivado/bin"
+
+added this lines:
+# ================= PATH SETUP =================
+# 1. Personal binaries (Vivado wrapper)
+# 2. xPack RISC-V bare-metal toolchain (Shakti)
+# 3. Bluespec (bsc)
+# 4. System paths
+# 5. Vivado real binary (after wrapper)
+
+export PATH="$HOME/.local/bin:$HOME/xpack-riscv-none-elf-gcc-13.2.0-2/bin:$HOME/bsc/inst/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:$HOME/.local/share/coursier/bin:$HOME/vivado/2025.2/Vivado/bin"
+# =============================================
+
+source ~/.bashrc
+hash -r
+
+error :
+nithyanandan@nithyanandan-U24D:~$ which riscv32-unknown-elf-gcc
+/usr/bin/riscv32-unknown-elf-gcc
+nithyanandan@nithyanandan-U24D:~$ ls $(riscv32-unknown-elf-gcc -print-sysroot)/include/stdio.h
+ls: cannot access '/include/stdio.h': No such file or directory
+
